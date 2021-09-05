@@ -1,0 +1,87 @@
+package agencia;
+
+import java.util.*;
+
+import agencia.Producto.tipoDeAtraccion;
+
+public class Usuario {
+	private String nombre;
+	private int monedasDeOro;
+	private double tiempoDisponible;
+	private tipoDeAtraccion preferencia;
+	private List<Producto> SugerenciasDiarias = new ArrayList<Producto>();
+	//Constructor
+	public Usuario(String nombre, int monedasDeOro, double tiempoDisponible, tipoDeAtraccion preferencia) {
+		super();
+		this.nombre = nombre;
+		this.monedasDeOro = monedasDeOro;
+		this.tiempoDisponible = tiempoDisponible;
+		this.preferencia = preferencia;
+	}
+	//Getters and setters
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public int getMonedasDeOro() {
+		return monedasDeOro;
+	}
+	public void setMonedasDeOro(int monedasDeOro) {
+		this.monedasDeOro = monedasDeOro;
+	}
+	public double getTiempoDisponible() {
+		return tiempoDisponible;
+	}
+	public void setTiempoDisponible(double tiempoDisponible) {
+		this.tiempoDisponible = tiempoDisponible;
+	}
+	public tipoDeAtraccion getPreferencia() {
+		return preferencia;
+	}
+	public void setPreferencia(tipoDeAtraccion preferencia) {
+		this.preferencia = preferencia;
+	}
+	public List<Producto> getSugerenciasDiarias() {
+		return SugerenciasDiarias;
+	}
+	public void setSugerenciasDiarias(Producto producto) {
+		SugerenciasDiarias.add(producto);
+	}
+	//Metodos
+	public static boolean aceptar() {
+		Scanner teclado = null;
+		boolean resultado = false;
+		try {
+		teclado = new Scanner(System.in);
+		System.out.println(
+		"Ingrese la opción deseada:" + 
+		"\n 1)Para aceptar la oferta "+ 
+		"\n 2)Para rechazar la oferta: ");
+		int opcionElegida = teclado.nextInt();
+		while(opcionElegida != 1 && opcionElegida != 2) {
+			System.out.println("La opción ingresada no es valida, ingrese una opción valida: ");
+			int hastaQuesalga = teclado.nextInt();
+			opcionElegida = hastaQuesalga;
+		}
+		resultado = opcionElegida != 2; } finally {
+			teclado.close();
+		}
+		return resultado;
+	} 
+	
+	public String toString() {
+		String quienSoy = "";
+		quienSoy += getNombre() + " ";
+		quienSoy += getMonedasDeOro() + " ";
+		quienSoy += getTiempoDisponible() + " ";
+		return quienSoy;
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+	
+	
+}

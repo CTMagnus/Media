@@ -1,0 +1,8 @@
+moria	10	2	6	aventura
+minas tirith	5	2.5	25	aventura
+la comarca	30	6.5	150	degustacion
+mordor	25	1 	4	degustacion
+abismo de helm	60	2	15	aventura
+lothlorien	35	1	30	degustacion
+erebor	12	3	32	degustacion
+bosque negro	10	4	12	degustacion

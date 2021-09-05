@@ -1,0 +1,4 @@
+eowyn	10	8	aventura
+gandalf	100	5	paisaje
+sam	36	8	degustacion
+galadriel	120	5	paisaje
