@@ -9,9 +9,9 @@ import agencia.Producto.*;
 
 
 public class agencia {
-	private List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
-	private List<Producto> listaDeAtracciones = new ArrayList<Producto>();
-	private List<Producto> listaDePromociones = new ArrayList<Producto>();
+	protected List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
+	protected List<Producto> listaDeAtracciones = new ArrayList<Producto>();
+	protected List<Producto> listaDePromociones = new ArrayList<Producto>();
 	
 	//Carga de archivos --------------------------------------------------------
 	@SuppressWarnings("Unused")
@@ -88,8 +88,6 @@ public class agencia {
 		}
 		
 		
-		
-		
 	}
 
 	public void cargaAtracciones(String linea) {
@@ -133,6 +131,39 @@ public class agencia {
 			}
 		}
 		
+	}
+	
+	@SuppressWarnings("unused")
+	private void cargarPromocion(String txt) {
+		
+		File archivo = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		
+		try {
+			archivo = new File(txt);
+			fr = new FileReader(archivo);
+			br = new BufferedReader(fr);
+			String linea ;
+			while((linea = br.readLine())!=null) {
+				
+			}
+			
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(fr != null) {
+					fr.close();
+				}
+			}catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 	//--------------------------------------------------------------------------
 	public void mostrarUsers() {

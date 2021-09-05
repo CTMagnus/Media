@@ -51,5 +51,13 @@ public class Porcentual extends Promocion {
 		return atraccionConCupo;
 	}
 	
+	public void reducirCupoPromocion(agencia a1) {
+		for (int i = 0; i < atraccionesContenidas.size(); i++) {
+			int posicionDeLaAtraccion = a1.listaDeAtracciones.indexOf(atraccionesContenidas.get(i));
+			a1.listaDeAtracciones.get(posicionDeLaAtraccion).reducirCupo();
+			if(a1.listaDeAtracciones.get(posicionDeLaAtraccion).getAtraccionConCupo()!=true) this.atraccionConCupo = false;
+		}
+	}
+	
 	
 }
