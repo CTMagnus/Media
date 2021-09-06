@@ -1,5 +1,7 @@
 package agencia;
 
+import java.util.List;
+
 public  class Producto {
 	protected tipoDeProducto tipoDeProducto;
 	protected tipoDeAtraccion tipoDeAtraccion;
@@ -53,6 +55,20 @@ public  class Producto {
 	public double calcularCosto() {return 0;};
 	
 	public boolean getAtraccionConCupo() {return false;}
+
+	public double getPrecio() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public boolean equals(String nombre) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public List<Producto> getAtr(){
+		return null;
+	}
 	
 
 

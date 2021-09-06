@@ -9,8 +9,8 @@ public class Porcentual extends Promocion {
 	protected boolean atraccionConCupo = true;
 	private double interesDeLaoferta;
 
-	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,List lista,double interesDeOferta) {
-		super(tipo, tipoAtraccion);
+	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List lista,double interesDeOferta) {
+		super(tipo, tipoAtraccion,nombre);
 		atraccionesContenidas.addAll(lista);
 		this.interesDeLaoferta = interesDeOferta/100;
 	}

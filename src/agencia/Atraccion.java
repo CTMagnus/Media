@@ -29,7 +29,7 @@ public class Atraccion extends Producto {
 	@Override
 	public String toString() {
 		String quienSoy = "";
-		quienSoy += getNombre() + " " + getPrecio() + " " + getCupo() + " " + getTiempoNecesario();
+		quienSoy += getNombre() + " " + getTipoDeAtraccion().name()+ " " + getPrecio() + " " + getCupo() + " " + getTiempoNecesario();
 		return quienSoy;
 		
 	}
@@ -42,7 +42,7 @@ public class Atraccion extends Producto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
+	@Override
 	public double getPrecio() {
 		return precio;
 	}
@@ -97,5 +97,10 @@ public class Atraccion extends Producto {
 		setCupo(getCupoDisponible()-1);
 		comprobarCupo();
 	}
-	
+
+	@Override
+	public boolean equals(String nombre) {
+		int uno = nombre.hashCode();
+		return uno == this.getNombre().hashCode();
+	}
 }

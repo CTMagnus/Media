@@ -4,14 +4,14 @@ package agencia;
 import java.io.*;
 import java.util.*;
 
-
 import agencia.Producto.*;
 
 
 public class agencia {
 	protected List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
-	protected List<Producto> listaDeAtracciones = new ArrayList<Producto>();
-	protected List<Producto> listaDePromociones = new ArrayList<Producto>();
+	public List<Atraccion> listaDeAtracciones = new ArrayList<Atraccion>();
+	public List<Producto> listaDePromociones = new ArrayList<Producto>();
+	public List<String>    nombres = new ArrayList<String>();
 	
 	//Carga de archivos --------------------------------------------------------
 	@SuppressWarnings("Unused")
@@ -130,41 +130,83 @@ public class agencia {
 				index=i+1;
 			}
 		}
+		this.guardarNombres();
 		
 	}
 	
+	
+	
 	@SuppressWarnings("unused")
-	private void cargarPromocion(String txt) {
+	private void cargarPromocion(String txt	) {
 		
-		File archivo = null;
-		FileReader fr = null;
-		BufferedReader br = null;
+		List<String> nombreDe = new ArrayList<String>();
 		
+		
+		Scanner sc = null;
 		try {
-			archivo = new File(txt);
-			fr = new FileReader(archivo);
-			br = new BufferedReader(fr);
-			String linea ;
-			while((linea = br.readLine())!=null) {
+			sc = new Scanner(new File(txt));
+			
+			while(sc.hasNext()) {
 				
+				String linea = sc.nextLine();
+				String datos[] = linea.split(",");
+				tipoDeProducto constante = tipoDeProducto.PROMOCION;
+				tipoDeAtraccion tipoAtracc = null;
+				String nombre = null;
+				List<Producto> atraccionesAcontener = new ArrayList<Producto>();
+				double costoOInteres = 0;
+				double interes = 0;
+				int caso = 0 ;
+				//Tipo- Si es absoluta,axb o porcentual
+				String tipoDePromocion = datos[0];
+				//Tipo de atracciones contenidas
+				tipoAtracc = tipoDeAtraccion.valueOf(datos[1].toUpperCase());
+				//nombre
+				nombre = datos[2];
+				//Caso de absoluta o porcentual guarda costo o interes respectivamente
+				if(datos.length==5) costoOInteres = Double.parseDouble(datos[4]);
+				//extraigo nombres de las atracciones contenidas
+				String atraccionesDeFichero[] = datos[3].split("-");
+				/*
+				//Comprobaciones 
+				System.out.println(tipoDePromocion.toString());
+				System.out.println(tipoAtracc.name());
+				System.out.println(nombre);
+				System.out.println(costoOInteres);
+				for(String s: atraccionesDeFichero) {
+					System.out.println(s.toString()); 
+				} */
+				
+				for(String s: atraccionesDeFichero) {
+					int index = nombres.indexOf(s);
+					atraccionesAcontener.add(listaDeAtracciones.get(index));
+					//System.out.println(listaDeAtracciones.get(index).getNombre());
+					//System.out.println(nombres.get(index).toString());
+				}
+				/*
+				for(Producto p : atraccionesAcontener) {
+					System.out.println(p.getNombre());
+				}*/
+				
+				if(tipoDePromocion.toString().equals("absoluta")) {
+					this.listaDePromociones.add(new absoluta(constante,tipoAtracc,nombre,atraccionesAcontener,costoOInteres));
+				}
+				if(tipoDePromocion.toString().equals("axb")) {
+					this.listaDePromociones.add(new axb(constante,tipoAtracc,nombre,atraccionesAcontener));
+				}
+				if(tipoDePromocion.toString().equals("porcentual")) {
+					this.listaDePromociones.add(new Porcentual(constante,tipoAtracc,nombre,atraccionesAcontener,costoOInteres));
+				}
+			}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				sc.close();
 			}
 			
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(fr != null) {
-					fr.close();
-				}
-			}catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-	}
+		
+	} 
 	//--------------------------------------------------------------------------
 	public void mostrarUsers() {
 		for (int i = 0; i < listaDeUsuarios.size(); i++) {
@@ -176,13 +218,47 @@ public class agencia {
 			System.out.println(listaDeAtracciones.get(i).toString());
 		}
 	}
+	
+	public void mostrarPromos() {
+		
+			
+	
+	}
+	public void guardarNombres() {
+		for (int i = 0; i < listaDeAtracciones.size(); i++) {
 
+			String aca = listaDeAtracciones.get(i).getNombre();
+			if(nombres.contains(aca)) continue;
+			nombres.add(aca);
+		}
+	}
+	
+	public void mostrarNames() {
+		for (int i = 0; i < nombres.size(); i++) {
+			System.out.println(nombres.get(i));
+		}
+	}
 	public static void main(String[] args) {
+		
+		
 		agencia a1 = new agencia();
 		a1.readData("usuarios.txt");
 		a1.readData("atracciones.txt");
-		a1.mostrarUsers();
-		a1.mostrarAtracciones();
+		a1.cargarPromocion("promociones.txt");
+		
+		
+		//a1.mostrarNames();
+		//a1.mostrarPromos();
+		for(Producto p : a1.listaDePromociones) {
+			System.out.println(p.toString());
+		}
+		List<Producto> a2 = a1.listaDePromociones.get(0).getAtr();
+		Producto a3 = a2.get(0);
+		System.out.println(a3.getNombre());
+		System.out.println(a3.getNombre().equals(a1.listaDeAtracciones.get(0).getNombre()));
+		//a1.mostrarUsers();
+		//a1.mostrarAtracciones(); 
 	}
 
+	
 }

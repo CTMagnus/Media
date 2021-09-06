@@ -5,13 +5,19 @@ import java.util.List;
 
 public class absoluta extends Promocion {
 	
-	List<Atraccion> atraccionesContenidas = new ArrayList<Atraccion>();
+	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
 	private double costo;
 	protected boolean atraccionConCupo = true;
 	
-	public absoluta(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,List lista,int costo) {
-		super(tipo, tipoAtraccion);
-		atraccionesContenidas.addAll(lista);
+	public absoluta(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List<Producto> lista,double costo) {
+		super(tipo, tipoAtraccion,nombre);
+		this.costo = costo;
+		this.atraccionesContenidas.addAll(lista);
+	}
+	
+	@Override
+	public String getNombre() {
+		return nombre;
 	}
 	
 	@Override
@@ -19,6 +25,21 @@ public class absoluta extends Promocion {
 		return costo;
 	}
 	
+	public void agregarAtracciones(List<Atraccion> lista) {
+		this.atraccionesContenidas.addAll(lista);
+	}
+	
+	@Override
+	public String toString() {
+		String retorno = this.getNombre() + " " + this.costo;
+		return retorno;
+	}
+	
+	@Override
+	public List<Producto> getAtr() {
+		return atraccionesContenidas;
+	}
+
 	public void reducirCupoPromocion(agencia a1) {
 		for (int i = 0; i < atraccionesContenidas.size(); i++) {
 			int posicionDeLaAtraccion = a1.listaDeAtracciones.indexOf(atraccionesContenidas.get(i));
