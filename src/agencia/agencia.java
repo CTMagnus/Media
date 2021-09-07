@@ -248,16 +248,15 @@ public class agencia {
 		
 		
 		//a1.mostrarNames();
-		//a1.mostrarPromos();
+		a1.mostrarPromos();
 		for(Producto p : a1.listaDePromociones) {
 			System.out.println(p.toString());
 		}
-		List<Producto> a2 = a1.listaDePromociones.get(0).getAtr();
-		Producto a3 = a2.get(0);
-		System.out.println(a3.getNombre());
-		System.out.println(a3.getNombre().equals(a1.listaDeAtracciones.get(0).getNombre()));
+		//List<Producto> a2 = a1.listaDePromociones.get(0).getAtr();
+		//Producto a3 = a2.get(0);
+		//System.out.println(a3.getNombre().equals(a1.listaDeAtracciones.get(0).getNombre()));
 		//a1.mostrarUsers();
-		//a1.mostrarAtracciones(); 
+		a1.mostrarAtracciones(); 
 	}
 
 	

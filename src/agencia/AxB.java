@@ -5,7 +5,7 @@ import java.util.*;
 
 public class axb extends Promocion {
 	
-	List<Atraccion> atraccionesContenidas = new ArrayList<Atraccion>();
+	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
 	protected boolean atraccionConCupo = true;
 	private double costo;
 	
@@ -38,12 +38,12 @@ public class axb extends Promocion {
 	}
 	@Override
 	public String toString() {
-		String datos = "Soy axb";
-		/*
+		String datos = "" ;
+		
 		for (int i = 0; i < atraccionesContenidas.size(); i++) {
-			datos += atraccionesContenidas.get(i).getNombre() + " ";
+			datos += this.atraccionesContenidas.get(i).getNombre() + " ";
 		}
-		*/
+		
 		return datos;
 	}
 	

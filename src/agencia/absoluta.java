@@ -41,6 +41,15 @@ public class absoluta extends Promocion {
 	}
 
 	public void reducirCupoPromocion(agencia a1) {
+		
+		//lista de atracciones -- itere si es equals del nombre es el mismo:
+		// agarra atracccion de la lista -- DISMINUIR CUPO
+		// AGARRA ATRACCION DENTRO DE LAS PROMOS --DISMINUIR CUPO
+		// agarra la atraccion de la lista -- Chequea atraccion con cupo -- si cupo == 0 cabiar a falso
+		// agarra la atraccion en las promos -- 
+		
+		
+		
 		for (int i = 0; i < atraccionesContenidas.size(); i++) {
 			int posicionDeLaAtraccion = a1.listaDeAtracciones.indexOf(atraccionesContenidas.get(i));
 			a1.listaDeAtracciones.get(posicionDeLaAtraccion).reducirCupo();

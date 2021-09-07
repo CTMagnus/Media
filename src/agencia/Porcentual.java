@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Porcentual extends Promocion {
 	
-	List<Atraccion> atraccionesContenidas = new ArrayList<Atraccion>();
+	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
 	protected boolean atraccionConCupo = true;
 	private double interesDeLaoferta;
 
@@ -26,16 +26,25 @@ public class Porcentual extends Promocion {
 		for (int i = 0; i < atraccionesContenidas.size(); i++) {
 			costo += atraccionesContenidas.get(i).getPrecio();
 		}
-		costo = costo * this.getInteresDeLaoferta();
+		costo = costo * (1-this.getInteresDeLaoferta());
 		return costo;
 	}
 	
 	//Getters and setters
-	public List<Atraccion> getAtraccionesContenidas() {
+	public List<Producto> getAtraccionesContenidas() {
 		return atraccionesContenidas;
 	}
-
-	public void setAtraccionesContenidas(List<Atraccion> atraccionesContenidas) {
+	
+	@Override
+	public String toString() {
+		String datos = "";
+		for (int i = 0; i < atraccionesContenidas.size(); i++) {
+			datos += atraccionesContenidas.get(i).getNombre()+ " ";
+		}
+		return datos;
+	}
+	
+	public void setAtraccionesContenidas(List<Producto> atraccionesContenidas) {
 		this.atraccionesContenidas = atraccionesContenidas;
 	}
 
