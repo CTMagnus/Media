@@ -8,14 +8,27 @@ public class Porcentual extends Promocion {
 	List<Atraccion> atraccionesContenidas = new ArrayList<Atraccion>();
 	protected boolean atraccionConCupo = true;
 	private double interesDeLaoferta;
+	private double tiempo;
 
-	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,List lista,double interesDeOferta) {
-		super(tipo, tipoAtraccion);
-		atraccionesContenidas.addAll(lista);
+	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,
+			ArrayList<Atraccion> lista, double interesDeOferta) {
+		super(tipo, tipoAtraccion,nombre);
+		this.atraccionesContenidas = lista;
 		this.interesDeLaoferta = interesDeOferta/100;
 	}
 	
 	
+public void setTiempo() {
+		
+		for (int i = 0; i < atraccionesContenidas.size(); i++) {
+			this.tiempo += atraccionesContenidas.get(i).getTiempo();
+		}
+		
+	}
+	
+	public double getTiempo() {
+		return this.tiempo;
+	}
 	
 	
 	
@@ -26,16 +39,24 @@ public class Porcentual extends Promocion {
 		for (int i = 0; i < atraccionesContenidas.size(); i++) {
 			costo += atraccionesContenidas.get(i).getPrecio();
 		}
-		costo = costo * this.getInteresDeLaoferta();
+		costo = costo * (1-this.getInteresDeLaoferta());
 		return costo;
 	}
 	
 	//Getters and setters
-	public List<Atraccion> getAtraccionesContenidas() {
-		return atraccionesContenidas;
+	
+	
+
+	@Override
+	public String toString() {
+		String datos = "";
+		for (int i = 0; i < atraccionesContenidas.size(); i++) {
+			datos += atraccionesContenidas.get(i).getNombre()+ " ";
+		}
+		return datos;
 	}
 
-	public void setAtraccionesContenidas(List<Atraccion> atraccionesContenidas) {
+	public void setAtraccionesContenidas(ArrayList<Atraccion> atraccionesContenidas) {
 		this.atraccionesContenidas = atraccionesContenidas;
 	}
 
@@ -43,9 +64,9 @@ public class Porcentual extends Promocion {
 		return interesDeLaoferta;
 	}
 
-	public void setInteresDeLaoferta(double interesDeLaoferta) {
-		this.interesDeLaoferta = interesDeLaoferta;
-	}
+	//public void setInteresDeLaoferta(double interesDeLaoferta) {
+	//	this.interesDeLaoferta = interesDeLaoferta;
+	// }
 
 	public boolean getAtraccionConCupo() {
 		return atraccionConCupo;

@@ -1,0 +1,3 @@
+absoluta,AVENTURA,atraccion de prueba,moria-erebor-lothlorien,20
+axb,AVENTURA,atraccion de prueba,moria-erebor-lothlorien
+porcentual,AVENTURA,atraccion de prueba,moria-erebor-lothlorien,20
