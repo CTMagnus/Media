@@ -319,12 +319,22 @@ public class agencia {
 						for(Promocion p : listaPromociones ) {
 				
 			//Comprueba que le alcance el tiempo				
-							if(u.getTiempoDisponible() >= p.calcularCosto()) {
+							if(u.getTiempoDisponible() >= p.getTiempo()) {
 			
 			// Si cumple con todo, la ofrece
 								if (this.ofertar(u)) {
 						
-			//Si acepta la compra actualiza Ususrio Promocion y atracciones						
+			//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+									u.restarDinero((int)p.calcularCosto());
+									u.setTiempoDisponible(p.getTiempo());
+									u.setSugerenciasDiarias(p);
+					
+							//Actualiza el cupo de las y atracciones			
+									List<Atraccion> atraccionesCompradas =  p.getAtraccionesContenidas();
+									for(Atraccion a : atraccionesCompradas) {
+										a.reducirCupo();
+										
+									}
 								}
 							}
 						}
@@ -336,11 +346,51 @@ public class agencia {
 			}
 			
 			
+		
+		
+		
+		// Primero entra en el mapa del tipo de atraccion preferida
+		if (u.getPreferencia() == tipoDeAtraccion.DEGUSTACION) {
+			
+			for(Entry <Integer, PriorityQueue<Promocion>> cadaPromoDegustacion: 
+				mapaPromocionesDegustacion.entrySet()) {
+				
+				
+		//comprueba que le alcanza el dinero
+				if(u.getMonedasDeOro() >= cadaPromoDegustacion.getKey() ) {
+					
+					PriorityQueue<Promocion> listaPromociones = cadaPromoDegustacion.getValue();	
+		//Recorre la lista de promociones de ese costo			
+					for(Promocion p : listaPromociones ) {
+			
+		//Comprueba que le alcance el tiempo				
+						if(u.getTiempoDisponible() >= p.getTiempo()) {
+		
+		// Si cumple con todo, la ofrece
+							if (this.ofertar(u)) {
+					
+		//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+								u.restarDinero((int)p.calcularCosto());
+								u.setTiempoDisponible(p.getTiempo());
+								u.setSugerenciasDiarias(p);
+				
+						//Actualiza el cupo de las y atracciones			
+								List<Atraccion> atraccionesCompradas =  p.getAtraccionesContenidas();
+								for(Atraccion a : atraccionesCompradas) {
+									a.reducirCupo();
+									
+								}
+							}
+						}
+					}
+					
+				}
+					
+			}
+			
 		}
 		
-		
-		
-		
+	}	
 		
 		
 	

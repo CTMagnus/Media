@@ -28,14 +28,14 @@ public class Usuario {
 	public int getMonedasDeOro() {
 		return monedasDeOro;
 	}
-	public void setMonedasDeOro(int monedasDeOro) {
-		this.monedasDeOro = monedasDeOro;
+	public void restarDinero(int monedasDeOro) {
+		this.monedasDeOro -= monedasDeOro;
 	}
 	public double getTiempoDisponible() {
 		return tiempoDisponible;
 	}
-	public void setTiempoDisponible(double tiempoDisponible) {
-		this.tiempoDisponible = tiempoDisponible;
+	public void setTiempoDisponible(double tiempo) {
+		this.tiempoDisponible -= tiempo;
 	}
 	public tipoDeAtraccion getPreferencia() {
 		return preferencia;
@@ -56,12 +56,12 @@ public class Usuario {
 		try {
 		teclado = new Scanner(System.in);
 		System.out.println(
-		"Ingrese la opción deseada:" + 
+		"Ingrese la opciï¿½n deseada:" + 
 		"\n 1)Para aceptar la oferta "+ 
 		"\n 2)Para rechazar la oferta: ");
 		int opcionElegida = teclado.nextInt();
 		while(opcionElegida != 1 && opcionElegida != 2) {
-			System.out.println("La opción ingresada no es valida, ingrese una opción valida: ");
+			System.out.println("La opciï¿½n ingresada no es valida, ingrese una opciï¿½n valida: ");
 			int hastaQuesalga = teclado.nextInt();
 			opcionElegida = hastaQuesalga;
 		}
