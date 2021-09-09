@@ -243,7 +243,7 @@ public class agencia {
 	//Mapas de Promociones  por tipo de Atraccion  Ordenadas por precio
 	public void mapasPorAtraccionPorPrecio() {
 		
-	//Mapa de Aventuras	
+	//Mapa de Promociones  de Aventuras	
 		mapaPromocionesAventuras = new TreeMap<Integer, PriorityQueue<Promocion>>();
 		
 		for (Producto p : listaDePromociones) {
@@ -265,7 +265,7 @@ public class agencia {
 		}
 		
 		
-		//Mapa de Paisaje	
+		//Mapa de  Promociones  de  Paisaje	
 				mapaPromocionesPaisaje = new TreeMap<Integer, PriorityQueue<Promocion>>();
 				
 				for (Producto p : listaDePromociones) {
@@ -403,6 +403,9 @@ public class agencia {
 			filtroPreferenciaAventura(u);
 			filtroPreferenciaDegustacion(u);
 			filtroPreferenciPaisaje(u);
+			filtroAtraccionAventura(u);
+			filtroAtraccionDegustacion(u);
+			filtroAtraccionPaisaje(u);
 		}
 			
 						
@@ -412,6 +415,9 @@ public class agencia {
 			filtroPreferenciaDegustacion(u);
 			filtroPreferenciPaisaje(u);
 			filtroPreferenciaAventura(u);
+			filtroAtraccionDegustacion(u);
+			filtroAtraccionAventura(u);
+			filtroAtraccionPaisaje(u);
 		}
 			
 		
@@ -421,15 +427,15 @@ public class agencia {
 			filtroPreferenciPaisaje(u);
 			filtroPreferenciaDegustacion(u);
 			filtroPreferenciaAventura(u);
+			filtroAtraccionPaisaje(u);
+			filtroAtraccionAventura(u);
+			filtroAtraccionDegustacion(u);
+			
 		}
 			
+		System.out.println("muchas gracias " + u.getNombre() + " por tratar con nuestra agencia");
 		
-		
-//Ahora que ya ofreció las Promociones de su gusto, se ofrece las qu no coincidan
-		
-		
-		
-		
+	
 	}	
 		
 		
@@ -561,6 +567,117 @@ public class agencia {
 		
 	}
 	
+	private void filtroAtraccionAventura(Usuario u) {
+		
+		
+		for(Entry <Integer, PriorityQueue<Atraccion>> cadaAtraccionAventura: 
+			mapaAtraccionesAventuras.entrySet()) {
+			
+			
+	//comprueba que le alcanza el dinero
+			if(u.getMonedasDeOro() >= cadaAtraccionAventura.getKey() ) {
+				
+				PriorityQueue<Atraccion> listaAtracciones = cadaAtraccionAventura.getValue();	
+	//Recorre la lista de promociones de ese costo			
+				for(Atraccion a : listaAtracciones ) {
+		
+	//Comprueba que le alcance el tiempo				
+					if(u.getTiempoDisponible() >= a.getTiempo()) {
+	
+	// Si cumple con todo, la ofrece
+						if (this.ofertar(u)) {
+				
+	//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+							u.restarDinero((int)a.getPrecio());
+							u.setTiempoDisponible(a.getTiempo());
+							u.setSugerenciasDiarias(a);
+			
+					//Actualiza el cupo de las y atracciones			
+							a.reducirCupo();
+								
+							}
+						}
+					}
+				}
+				
+			}
+				
+		}
+		
+	
+private void filtroAtraccionPaisaje(Usuario u) {
+		
+		
+		for(Entry <Integer, PriorityQueue<Atraccion>> cadaAtraccionPaisaje: 
+			mapaAtraccionesPaisaje.entrySet()) {
+			
+			
+	//comprueba que le alcanza el dinero
+			if(u.getMonedasDeOro() >= cadaAtraccionPaisaje.getKey() ) {
+				
+				PriorityQueue<Atraccion> listaAtracciones = cadaAtraccionPaisaje.getValue();	
+	//Recorre la lista de promociones de ese costo			
+				for(Atraccion a : listaAtracciones ) {
+		
+	//Comprueba que le alcance el tiempo				
+					if(u.getTiempoDisponible() >= a.getTiempo()) {
+	
+	// Si cumple con todo, la ofrece
+						if (this.ofertar(u)) {
+				
+	//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+							u.restarDinero((int)a.getPrecio());
+							u.setTiempoDisponible(a.getTiempo());
+							u.setSugerenciasDiarias(a);
+			
+					//Actualiza el cupo de las y atracciones			
+							a.reducirCupo();
+								
+							}
+						}
+					}
+				}
+				
+			}
+				
+		}
+		
+private void filtroAtraccionDegustacion(Usuario u) {
+	
+	
+	for(Entry <Integer, PriorityQueue<Atraccion>> cadaAtraccionDegustacion: 
+		mapaAtraccionesDegustacion.entrySet()) {
+		
+		
+//comprueba que le alcanza el dinero
+		if(u.getMonedasDeOro() >= cadaAtraccionDegustacion.getKey() ) {
+			
+			PriorityQueue<Atraccion> listaAtracciones = cadaAtraccionDegustacion.getValue();	
+//Recorre la lista de promociones de ese costo			
+			for(Atraccion a : listaAtracciones ) {
+	
+//Comprueba que le alcance el tiempo				
+				if(u.getTiempoDisponible() >= a.getTiempo()) {
+
+// Si cumple con todo, la ofrece
+					if (this.ofertar(u)) {
+			
+//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+						u.restarDinero((int)a.getPrecio());
+						u.setTiempoDisponible(a.getTiempo());
+						u.setSugerenciasDiarias(a);
+		
+				//Actualiza el cupo de las y atracciones			
+						a.reducirCupo();
+							
+						}
+					}
+				}
+			}
+			
+		}
+			
+	}
 	
 	
 	private boolean ofertar(Usuario u) {
