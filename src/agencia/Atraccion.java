@@ -2,7 +2,7 @@ package agencia;
 
 public class Atraccion extends Producto {
 	private String nombre;
-	private double precio;
+	private int precio;
 	private int cupo;
 	private int cupoDisponible;
 	private double tiempoNecesario;
@@ -12,7 +12,7 @@ public class Atraccion extends Producto {
 	public Atraccion(tipoDeProducto tipo, 
 			tipoDeAtraccion tipoDeAtraccion,
 			String nombre,
-			double precio,
+			int precio,
 			int cupo,
 			double tiempoNecesario) {
 		
@@ -29,7 +29,8 @@ public class Atraccion extends Producto {
 	@Override
 	public String toString() {
 		String quienSoy = "";
-		quienSoy += getNombre() + " " + getTipoDeAtraccion().name()+ " " + getPrecio() + " " + getCupo() + " " + getTiempoNecesario();
+		quienSoy += getNombre() + " " + getPrecio() + " " + getCupo() + " " + getTiempo();
+
 		return quienSoy;
 		
 	}
@@ -47,7 +48,7 @@ public class Atraccion extends Producto {
 		return precio;
 	}
 
-	public void setPrecio(double precio) {
+	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
 	
@@ -68,10 +69,12 @@ public class Atraccion extends Producto {
 		this.cupoDisponible = cupoDisponible;
 	}
 
-	public double getTiempoNecesario() {
+	@Override
+	public double getTiempo() {
+		
 		return tiempoNecesario;
 	}
-
+	
 	public void setTiempoNecesario(double tiempoNecesario) {
 		this.tiempoNecesario = tiempoNecesario;
 	}
@@ -97,10 +100,10 @@ public class Atraccion extends Producto {
 		setCupo(getCupoDisponible()-1);
 		comprobarCupo();
 	}
-
 	@Override
 	public boolean equals(String nombre) {
 		int uno = nombre.hashCode();
 		return uno == this.getNombre().hashCode();
 	}
+
 }

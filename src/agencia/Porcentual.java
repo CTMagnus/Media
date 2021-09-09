@@ -8,14 +8,28 @@ public class Porcentual extends Promocion {
 	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
 	protected boolean atraccionConCupo = true;
 	private double interesDeLaoferta;
+	private double tiempo;
 
-	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List lista,double interesDeOferta) {
+
+	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,
+			ArrayList<Atraccion> lista, double interesDeOferta) {
 		super(tipo, tipoAtraccion,nombre);
-		atraccionesContenidas.addAll(lista);
+		this.atraccionesContenidas = lista;
 		this.interesDeLaoferta = interesDeOferta/100;
 	}
 	
 	
+public void setTiempo() {
+		
+		for (int i = 0; i < atraccionesContenidas.size(); i++) {
+			this.tiempo += atraccionesContenidas.get(i).getTiempo();
+		}
+		
+	}
+	
+	public double getTiempo() {
+		return this.tiempo;
+	}
 	
 	
 	
@@ -35,6 +49,7 @@ public class Porcentual extends Promocion {
 		return atraccionesContenidas;
 	}
 	
+
 	@Override
 	public String toString() {
 		String datos = "";
@@ -43,8 +58,8 @@ public class Porcentual extends Promocion {
 		}
 		return datos;
 	}
-	
-	public void setAtraccionesContenidas(List<Producto> atraccionesContenidas) {
+
+	public void setAtraccionesContenidas(ArrayList<Atraccion> atraccionesContenidas) {
 		this.atraccionesContenidas = atraccionesContenidas;
 	}
 
@@ -52,9 +67,9 @@ public class Porcentual extends Promocion {
 		return interesDeLaoferta;
 	}
 
-	public void setInteresDeLaoferta(double interesDeLaoferta) {
-		this.interesDeLaoferta = interesDeLaoferta;
-	}
+	//public void setInteresDeLaoferta(double interesDeLaoferta) {
+	//	this.interesDeLaoferta = interesDeLaoferta;
+	// }
 
 	public boolean getAtraccionConCupo() {
 		return atraccionConCupo;

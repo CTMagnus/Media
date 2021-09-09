@@ -1,18 +1,29 @@
 package agencia;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class absoluta extends Promocion {
 	
 	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
 	private double costo;
 	protected boolean atraccionConCupo = true;
+	private double tiempo;
 	
-	public absoluta(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List<Producto> lista,double costo) {
+	public absoluta(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List<Atraccion> lista,double costo) {
 		super(tipo, tipoAtraccion,nombre);
 		this.costo = costo;
-		this.atraccionesContenidas.addAll(lista);
+		atraccionesContenidas.addAll( lista);
+	}
+	
+public void setTiempo() {
+		
+		for (int i = 0; i < atraccionesContenidas.size(); i++) {
+			this.tiempo += atraccionesContenidas.get(i).getTiempo();
+		}
+		
+	}
+	
+	public double getTiempo() {
+		return this.tiempo;
 	}
 	
 	@Override
@@ -56,5 +67,5 @@ public class absoluta extends Promocion {
 			if(a1.listaDeAtracciones.get(posicionDeLaAtraccion).getAtraccionConCupo()!=true) this.atraccionConCupo = false;
 		}
 	}
-	
 }
+

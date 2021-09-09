@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Promocion extends Producto {
 	
-	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
+	List<Atraccion> atraccionesContenidas = new ArrayList<Atraccion>();
 	public boolean atraccionConCupo = true;
 	String nombre;
 	
@@ -41,8 +41,10 @@ public class Promocion extends Producto {
 		}
 		
 		return datos;
-	}
+	}	
+	@Override
+	public double getPrecio() {
 	
-	
-	
+		return 0;
+	}	
 }

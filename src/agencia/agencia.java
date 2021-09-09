@@ -1,18 +1,24 @@
 package agencia;
-
-
 import java.io.*;
 import java.util.*;
 
-import agencia.Producto.*;
+import java.util.Map.Entry;
 
+import agencia.Producto.*;
 
 public class agencia {
 	protected List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 	public List<Atraccion> listaDeAtracciones = new ArrayList<Atraccion>();
 	public List<Producto> listaDePromociones = new ArrayList<Producto>();
 	public List<String>    nombres = new ArrayList<String>();
-	
+
+	public TreeMap<Integer, PriorityQueue<Promocion>> mapaPromocionesAventuras;
+	public TreeMap<Integer, PriorityQueue<Promocion>> mapaPromocionesPaisaje;
+	public TreeMap<Integer, PriorityQueue<Promocion>> mapaPromocionesDegustacion;
+	private TreeMap<Integer, PriorityQueue<Atraccion>> mapaAtraccionesAventuras;
+	private TreeMap<Integer, PriorityQueue<Atraccion>> mapaAtraccionesPaisaje;
+	private TreeMap<Integer, PriorityQueue<Atraccion>> mapaAtraccionesDegustacion;
+
 	//Carga de archivos --------------------------------------------------------
 	@SuppressWarnings("Unused")
 	private void readData(String txt) {
@@ -50,7 +56,6 @@ public class agencia {
 			}
 		}
 	}
-
 	private void cargarUsuarios(String linea) {
 		String name= new String();
 		int presupuesto = 0;
@@ -61,7 +66,6 @@ public class agencia {
 		
 		for(int i=0; i < linea.length(); i++) {
 			if(9 == linea.charAt(i)) {
-
 				switch(status) {
 				case 0:
 					name=linea.substring(index,i);;
@@ -89,7 +93,6 @@ public class agencia {
 		
 		
 	}
-
 	public void cargaAtracciones(String linea) {
 		
 		String name= new String();
@@ -101,7 +104,6 @@ public class agencia {
 		
 		for(int i=0; i < linea.length(); i++) {
 			if(9 == linea.charAt(i)) {
-
 				switch(status) {
 				case 0:
 					name=linea.substring(index,i);;
@@ -153,7 +155,8 @@ public class agencia {
 				tipoDeProducto constante = tipoDeProducto.PROMOCION;
 				tipoDeAtraccion tipoAtracc = null;
 				String nombre = null;
-				List<Producto> atraccionesAcontener = new ArrayList<Producto>();
+
+				ArrayList<Atraccion> atraccionesAcontener = new ArrayList<Atraccion>();
 				double costoOInteres = 0;
 				double interes = 0;
 				int caso = 0 ;
@@ -192,7 +195,8 @@ public class agencia {
 					this.listaDePromociones.add(new absoluta(constante,tipoAtracc,nombre,atraccionesAcontener,costoOInteres));
 				}
 				if(tipoDePromocion.toString().equals("axb")) {
-					this.listaDePromociones.add(new axb(constante,tipoAtracc,nombre,atraccionesAcontener));
+
+					this.listaDePromociones.add(new AxB(constante,tipoAtracc,nombre,atraccionesAcontener));
 				}
 				if(tipoDePromocion.toString().equals("porcentual")) {
 					this.listaDePromociones.add(new Porcentual(constante,tipoAtracc,nombre,atraccionesAcontener,costoOInteres));
@@ -238,6 +242,455 @@ public class agencia {
 			System.out.println(nombres.get(i));
 		}
 	}
+	
+	//---------------------------------------------------------------------------------------
+		//Filtros
+	
+	//Mapas de Promociones  por tipo de Atraccion  Ordenadas por precio
+	public void mapasPorAtraccionPorPrecio() {
+		
+	//Mapa de Promociones  de Aventuras	
+		mapaPromocionesAventuras = new TreeMap<Integer, PriorityQueue<Promocion>>();
+		
+		for (Producto p : listaDePromociones) {
+			if (p.tipoDeAtraccion == tipoDeAtraccion.AVENTURA
+					
+					//Agregar que tenga cupo. Sino que no la ingrese
+					) {
+
+				Integer key = (int) p.getPrecio();
+				if (mapaPromocionesAventuras.containsKey(key)) {
+					mapaPromocionesAventuras.get(key).offer((Promocion) p);
+				} else {
+					PriorityQueue<Promocion> cola = new PriorityQueue<Promocion>();
+					cola.offer((Promocion) p);
+					mapaPromocionesAventuras.put(key, cola);
+				}
+
+			}
+		}
+		
+		
+		//Mapa de  Promociones  de  Paisaje	
+				mapaPromocionesPaisaje = new TreeMap<Integer, PriorityQueue<Promocion>>();
+				
+				for (Producto p : listaDePromociones) {
+					if (p.tipoDeAtraccion == tipoDeAtraccion.PAISAJE
+							
+							//Agregar que tenga cupo. Sino que no la ingrese
+							
+							
+							) {
+
+						Integer key = (int) p.getPrecio();
+						if (mapaPromocionesPaisaje.containsKey(key)) {
+							mapaPromocionesPaisaje.get(key).offer((Promocion) p);
+						} else {
+							PriorityQueue<Promocion> cola = new PriorityQueue<Promocion>();
+							cola.offer((Promocion) p);
+							mapaPromocionesPaisaje.put(key, cola);
+						}
+
+					}
+				}
+		
+				//Mapa de Degustacion	
+				mapaPromocionesDegustacion = new TreeMap<Integer, PriorityQueue<Promocion>>();
+				
+				for (Producto p : listaDePromociones) {
+					if (p.tipoDeAtraccion == tipoDeAtraccion.DEGUSTACION
+							
+							
+							
+							//Agregar que tenga cupo. Sino que no la ingrese
+							
+							
+							) {
+
+						Integer key = (int) p.getPrecio();
+						if (mapaPromocionesPaisaje.containsKey(key)) {
+							mapaPromocionesPaisaje.get(key).offer((Promocion) p);
+						} else {
+							PriorityQueue<Promocion> cola = new PriorityQueue<Promocion>();
+							cola.offer((Promocion) p);
+							mapaPromocionesPaisaje.put(key, cola);
+						}
+
+					}
+				}
+		
+	}
+
+	
+	//Mapas de Atraccion  Ordenadas por precio
+	public void mapasDeAtraccionPorPrecio() {
+		
+	//Mapa de Aventuras	
+		mapaAtraccionesAventuras = new TreeMap<Integer, PriorityQueue<Atraccion>>();
+		
+		for (Producto p : listaDeAtracciones) {
+			if (p.tipoDeAtraccion == tipoDeAtraccion.AVENTURA
+					
+					//Agregar que tenga cupo. Sino que no la ingrese
+					) {
+
+				Integer key = (int) p.getPrecio();
+				if (mapaAtraccionesAventuras.containsKey(key)) {
+					mapaAtraccionesAventuras.get(key).offer((Atraccion) p);
+				} else {
+					PriorityQueue<Atraccion> cola = new PriorityQueue<Atraccion>();
+					cola.offer((Atraccion) p);
+					mapaAtraccionesAventuras.put(key, cola);
+				}
+
+			}
+		}
+		
+		
+		//Mapa de Paisaje		
+				mapaAtraccionesPaisaje = new TreeMap<Integer, PriorityQueue<Atraccion>>();
+				
+				for (Producto p : listaDeAtracciones) {
+					if (p.tipoDeAtraccion == tipoDeAtraccion.PAISAJE
+							
+							//Agregar que tenga cupo. Sino que no la ingrese
+							) {
+
+						Integer key = (int) p.getPrecio();
+						if (mapaAtraccionesPaisaje.containsKey(key)) {
+							mapaAtraccionesPaisaje.get(key).offer((Atraccion) p);
+						} else {
+							PriorityQueue<Atraccion> cola = new PriorityQueue<Atraccion>();
+							cola.offer((Atraccion) p);
+							mapaAtraccionesPaisaje.put(key, cola);
+						}
+
+					}
+				}
+
+		
+				//Mapa de Degustacion	
+				mapaAtraccionesDegustacion = new TreeMap<Integer, PriorityQueue<Atraccion>>();
+				
+				for (Producto p : listaDeAtracciones) {
+					if (p.tipoDeAtraccion == tipoDeAtraccion.DEGUSTACION
+							
+							//Agregar que tenga cupo. Sino que no la ingrese
+							) {
+
+						Integer key = (int) p.getPrecio();
+						if (mapaAtraccionesDegustacion.containsKey(key)) {
+							mapaAtraccionesDegustacion.get(key).offer((Atraccion) p);
+						} else {
+							PriorityQueue<Atraccion> cola = new PriorityQueue<Atraccion>();
+							cola.offer((Atraccion) p);
+							mapaAtraccionesDegustacion.put(key, cola);
+						}
+
+					}
+				}
+		
+	}
+	
+	//Recorre lista usuarios
+	private void filtroSugerencias() {
+		
+		for(Usuario u: listaDeUsuarios) {
+		
+	//Por cada usuario se genera el mapa para que los cupos estén actualizados		
+			
+		this.mapasPorAtraccionPorPrecio();	
+			// Primero entra en el mapa del tipo de atraccion preferida
+		
+		
+		if (u.getPreferencia() == tipoDeAtraccion.AVENTURA) {
+			
+			//primero ofrece las de su gusto y luego las que no coinciden
+			filtroPreferenciaAventura(u);
+			filtroPreferenciaDegustacion(u);
+			filtroPreferenciPaisaje(u);
+			filtroAtraccionAventura(u);
+			filtroAtraccionDegustacion(u);
+			filtroAtraccionPaisaje(u);
+		}
+			
+						
+		if (u.getPreferencia() == tipoDeAtraccion.DEGUSTACION) {
+			
+			//primero ofrece las de su gusto y luego las que no coinciden
+			filtroPreferenciaDegustacion(u);
+			filtroPreferenciPaisaje(u);
+			filtroPreferenciaAventura(u);
+			filtroAtraccionDegustacion(u);
+			filtroAtraccionAventura(u);
+			filtroAtraccionPaisaje(u);
+		}
+			
+		
+		if (u.getPreferencia() == tipoDeAtraccion.PAISAJE) {
+			
+			//primero ofrece las de su gusto y luego las que no coinciden
+			filtroPreferenciPaisaje(u);
+			filtroPreferenciaDegustacion(u);
+			filtroPreferenciaAventura(u);
+			filtroAtraccionPaisaje(u);
+			filtroAtraccionAventura(u);
+			filtroAtraccionDegustacion(u);
+			
+		}
+			
+		System.out.println("muchas gracias " + u.getNombre() + " por tratar con nuestra agencia");
+		
+	
+	}	
+		
+		
+	
+	}
+	private void filtroPreferenciPaisaje(Usuario u) {
+		{
+			
+			for(Entry <Integer, PriorityQueue<Promocion>> cadaPromoPaisaje: 
+				mapaPromocionesPaisaje.entrySet()) {
+				
+				
+		//comprueba que le alcanza el dinero
+				if(u.getMonedasDeOro() >= cadaPromoPaisaje.getKey() ) {
+					
+					PriorityQueue<Promocion> listaPromociones = cadaPromoPaisaje.getValue();	
+		//Recorre la lista de promociones de ese costo			
+					for(Promocion p : listaPromociones ) {
+			
+		//Comprueba que le alcance el tiempo				
+						if(u.getTiempoDisponible() >= p.getTiempo()) {
+		
+		// Si cumple con todo, la ofrece
+							if (this.ofertar(u)) {
+					
+		//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+								u.restarDinero((int)p.calcularCosto());
+								u.setTiempoDisponible(p.getTiempo());
+								u.setSugerenciasDiarias(p);
+				
+						//Actualiza el cupo de las y atracciones			
+								List<Atraccion> atraccionesCompradas =  p.getAtraccionesContenidas();
+								for(Atraccion a : atraccionesCompradas) {
+									a.reducirCupo();
+									
+								}
+							}
+						}
+					}
+					
+				}
+					
+			}
+			
+		}
+	}
+	private void filtroPreferenciaDegustacion(Usuario u) {
+		{
+			
+			for(Entry <Integer, PriorityQueue<Promocion>> cadaPromoDegustacion: 
+				mapaPromocionesDegustacion.entrySet()) {
+				
+				
+		//comprueba que le alcanza el dinero
+				if(u.getMonedasDeOro() >= cadaPromoDegustacion.getKey() ) {
+					
+					PriorityQueue<Promocion> listaPromociones = cadaPromoDegustacion.getValue();	
+		//Recorre la lista de promociones de ese costo			
+					for(Promocion p : listaPromociones ) {
+			
+		//Comprueba que le alcance el tiempo				
+						if(u.getTiempoDisponible() >= p.getTiempo()) {
+		
+		// Si cumple con todo, la ofrece
+							if (this.ofertar(u)) {
+					
+		//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+								u.restarDinero((int)p.calcularCosto());
+								u.setTiempoDisponible(p.getTiempo());
+								u.setSugerenciasDiarias(p);
+				
+						//Actualiza el cupo de las y atracciones			
+								List<Atraccion> atraccionesCompradas =  p.getAtraccionesContenidas();
+								for(Atraccion a : atraccionesCompradas) {
+									a.reducirCupo();
+									
+								}
+							}
+						}
+					}
+					
+				}
+					
+			}
+			
+		}
+	}
+	
+	
+	private void filtroPreferenciaAventura(Usuario u) {
+		
+			
+			for(Entry <Integer, PriorityQueue<Promocion>> cadaPromoAventura: 
+				mapaPromocionesAventuras.entrySet()) {
+				
+				
+		//comprueba que le alcanza el dinero
+				if(u.getMonedasDeOro() >= cadaPromoAventura.getKey() ) {
+					
+					PriorityQueue<Promocion> listaPromociones = cadaPromoAventura.getValue();	
+		//Recorre la lista de promociones de ese costo			
+					for(Promocion p : listaPromociones ) {
+			
+		//Comprueba que le alcance el tiempo				
+						if(u.getTiempoDisponible() >= p.getTiempo()) {
+		
+		// Si cumple con todo, la ofrece
+							if (this.ofertar(u)) {
+					
+		//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+								u.restarDinero((int)p.calcularCosto());
+								u.setTiempoDisponible(p.getTiempo());
+								u.setSugerenciasDiarias(p);
+				
+						//Actualiza el cupo de las y atracciones			
+								List<Atraccion> atraccionesCompradas =  p.getAtraccionesContenidas();
+								for(Atraccion a : atraccionesCompradas) {
+									a.reducirCupo();
+									
+								}
+							}
+						}
+					}
+					
+				}
+					
+			}
+			
+		
+	}
+	
+	private void filtroAtraccionAventura(Usuario u) {
+		
+		
+		for(Entry <Integer, PriorityQueue<Atraccion>> cadaAtraccionAventura: 
+			mapaAtraccionesAventuras.entrySet()) {
+			
+			
+	//comprueba que le alcanza el dinero
+			if(u.getMonedasDeOro() >= cadaAtraccionAventura.getKey() ) {
+				
+				PriorityQueue<Atraccion> listaAtracciones = cadaAtraccionAventura.getValue();	
+	//Recorre la lista de promociones de ese costo			
+				for(Atraccion a : listaAtracciones ) {
+		
+	//Comprueba que le alcance el tiempo				
+					if(u.getTiempoDisponible() >= a.getTiempo()) {
+	
+	// Si cumple con todo, la ofrece
+						if (this.ofertar(u)) {
+				
+	//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+							u.restarDinero((int)a.getPrecio());
+							u.setTiempoDisponible(a.getTiempo());
+							u.setSugerenciasDiarias(a);
+			
+					//Actualiza el cupo de las y atracciones			
+							a.reducirCupo();
+								
+							}
+						}
+					}
+				}
+				
+			}
+				
+		}
+		
+	
+private void filtroAtraccionPaisaje(Usuario u) {
+		
+		
+		for(Entry <Integer, PriorityQueue<Atraccion>> cadaAtraccionPaisaje: 
+			mapaAtraccionesPaisaje.entrySet()) {
+			
+			
+	//comprueba que le alcanza el dinero
+			if(u.getMonedasDeOro() >= cadaAtraccionPaisaje.getKey() ) {
+				
+				PriorityQueue<Atraccion> listaAtracciones = cadaAtraccionPaisaje.getValue();	
+	//Recorre la lista de promociones de ese costo			
+				for(Atraccion a : listaAtracciones ) {
+		
+	//Comprueba que le alcance el tiempo				
+					if(u.getTiempoDisponible() >= a.getTiempo()) {
+	
+	// Si cumple con todo, la ofrece
+						if (this.ofertar(u)) {
+				
+	//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+							u.restarDinero((int)a.getPrecio());
+							u.setTiempoDisponible(a.getTiempo());
+							u.setSugerenciasDiarias(a);
+			
+					//Actualiza el cupo de las y atracciones			
+							a.reducirCupo();
+								
+							}
+						}
+					}
+				}
+				
+			}
+				
+		}
+		
+private void filtroAtraccionDegustacion(Usuario u) {
+	
+	
+	for(Entry <Integer, PriorityQueue<Atraccion>> cadaAtraccionDegustacion: 
+		mapaAtraccionesDegustacion.entrySet()) {
+		
+		
+//comprueba que le alcanza el dinero
+		if(u.getMonedasDeOro() >= cadaAtraccionDegustacion.getKey() ) {
+			
+			PriorityQueue<Atraccion> listaAtracciones = cadaAtraccionDegustacion.getValue();	
+//Recorre la lista de promociones de ese costo			
+			for(Atraccion a : listaAtracciones ) {
+	
+//Comprueba que le alcance el tiempo				
+				if(u.getTiempoDisponible() >= a.getTiempo()) {
+
+// Si cumple con todo, la ofrece
+					if (this.ofertar(u)) {
+			
+//Si acepta la compra actualiza dinero y tiempo del Usuario. Guarda la compra	
+						u.restarDinero((int)a.getPrecio());
+						u.setTiempoDisponible(a.getTiempo());
+						u.setSugerenciasDiarias(a);
+		
+				//Actualiza el cupo de las y atracciones			
+						a.reducirCupo();
+							
+						}
+					}
+				}
+			}
+			
+		}
+			
+	}
+	
+	
+	private boolean ofertar(Usuario u) {
+		// TODO Auto-generated method stub
+		return false;
+
+	}
 	public static void main(String[] args) {
 		
 		
@@ -245,19 +698,25 @@ public class agencia {
 		a1.readData("usuarios.txt");
 		a1.readData("atracciones.txt");
 		a1.cargarPromocion("promociones.txt");
-		
-		
+
 		//a1.mostrarNames();
+		//a1.mostrarPromos();
+
 		a1.mostrarPromos();
 		for(Producto p : a1.listaDePromociones) {
 			System.out.println(p.toString());
 		}
+		List<Producto> a2 = a1.listaDePromociones.get(0).getAtr();
+	//	Producto a3 = a2.get(0);
+	//	System.out.println(a3.getNombre());
+		//System.out.println(a3.getNombre().equals(a1.listaDeAtracciones.get(0).getNombre()));
 		//List<Producto> a2 = a1.listaDePromociones.get(0).getAtr();
 		//Producto a3 = a2.get(0);
 		//System.out.println(a3.getNombre().equals(a1.listaDeAtracciones.get(0).getNombre()));
 		//a1.mostrarUsers();
-		a1.mostrarAtracciones(); 
+		//a1.mostrarAtracciones(); 
+		//a1.mostrarAtracciones(); 
+		a1.mapasPorAtraccionPorPrecio();
 	}
 
-	
 }

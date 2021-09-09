@@ -1,8 +1,9 @@
 package agencia;
 
 import java.util.List;
+import java.util.Objects;
 
-public  class Producto {
+public abstract  class Producto  implements Comparable<Producto>{
 	protected tipoDeProducto tipoDeProducto;
 	protected tipoDeAtraccion tipoDeAtraccion;
 	
@@ -56,14 +57,39 @@ public  class Producto {
 	
 	public boolean getAtraccionConCupo() {return false;}
 
+	public abstract double getTiempo() ;
 	public double getPrecio() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
+	
 
-	public boolean equals(String nombre) {
-		// TODO Auto-generated method stub
-		return false;
+	@Override
+	public int hashCode() {
+		return Objects.hash(tipoDeAtraccion, tipoDeProducto);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Producto other = (Producto) obj;
+		return tipoDeAtraccion == other.tipoDeAtraccion && tipoDeProducto == other.tipoDeProducto &&
+				this.getTiempo() == other.getTiempo();
+	}
+
+	public int compareTo(Producto otro) {
+		if(this.getTiempo() > otro.getTiempo()) {
+			return 1;
+		}
+		if(this.getTiempo() < otro.getTiempo()) {
+			return -1;
+		}
+		else return 0;
 	}
 	
 	public List<Producto> getAtr(){
@@ -76,3 +102,4 @@ public  class Producto {
 
 
 }
+
