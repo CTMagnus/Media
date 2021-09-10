@@ -11,7 +11,8 @@ public class Usuario {
 	private tipoDeAtraccion preferencia;
 	private List<Producto> SugerenciasDiarias = new ArrayList<Producto>();
 	//Constructor
-	public Usuario(String nombre, int monedasDeOro, double tiempoDisponible, tipoDeAtraccion preferencia) {
+	public Usuario(String nombre, int monedasDeOro, double tiempoDisponible, 
+			tipoDeAtraccion preferencia) {
 		super();
 		this.nombre = nombre;
 		this.monedasDeOro = monedasDeOro;

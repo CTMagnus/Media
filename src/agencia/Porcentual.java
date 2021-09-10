@@ -49,11 +49,8 @@ public void setTiempo() {
 
 	@Override
 	public String toString() {
-		String datos = "";
-		for (int i = 0; i < atraccionesContenidas.size(); i++) {
-			datos += atraccionesContenidas.get(i).getNombre()+ " ";
-		}
-		return datos;
+		String retorno = this.getNombre() + " " + this.calcularCosto();
+		return retorno;
 	}
 
 	public void setAtraccionesContenidas(ArrayList<Atraccion> atraccionesContenidas) {

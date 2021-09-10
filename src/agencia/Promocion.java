@@ -17,6 +17,12 @@ public abstract class Promocion extends Producto {
 	public List<Atraccion> getAtraccionesContenidas() {
 		return atraccionesContenidas;
 	}
+	
+	public List<Atraccion> setAtraccionesContenidas(Atraccion a) {
+		this.atraccionesContenidas.add(a);
+		return  this.atraccionesContenidas;
+	}
+	
 
 	public boolean isAtraccionConCupo() {
 		return atraccionConCupo;

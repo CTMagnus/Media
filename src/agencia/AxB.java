@@ -1,17 +1,19 @@
 package agencia;
 import java.util.*;
 
+
+
 public class AxB extends Promocion {
 
-	List<Atraccion> atraccionesContenidas = new ArrayList<Atraccion>();
+	List<Producto> atraccionesContenidas = new ArrayList<Producto>();
 	
 	protected boolean atraccionConCupo = true;
 	private double costo;
 	private double tiempo;
 	private double descuento = 0;
 	
-	public AxB( TipoDeDescuento tipoDescuento , tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,
-			String nombre, double descuento,List <Atraccion>lista) {
+	public AxB(TipoDeDescuento tipoDescuento,  tipoDeProducto tipo, 
+			tipoDeAtraccion tipoAtraccion,String nombre,double costo, List<Atraccion> lista) {
 		super(tipo, tipoAtraccion,nombre);
 		atraccionesContenidas.addAll(lista);
 		
@@ -53,15 +55,8 @@ public class AxB extends Promocion {
 	
 	@Override
 	public String toString() {
-		String datos = "" ;
-
-		for (int i = 0; i < atraccionesContenidas.size(); i++) {
-			
-			datos += this.atraccionesContenidas.get(i).getNombre() + " ";
-		}
-		
-
-		return datos;
+		String retorno = this.getNombre() + " " + this.costo;
+		return retorno;
 	}
 
 }
