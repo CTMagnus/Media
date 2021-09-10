@@ -5,10 +5,11 @@ import java.util.Map.Entry;
 
 import agencia.Producto.*;
 
+
 public class agencia {
 	protected List<Usuario> listaDeUsuarios = new ArrayList<Usuario>();
 	public List<Atraccion> listaDeAtracciones = new ArrayList<Atraccion>();
-	public List<Producto> listaDePromociones = new ArrayList<Producto>();
+	public List<Promocion> listaDePromociones = new ArrayList<Promocion>();
 	public List<String>    nombres = new ArrayList<String>();
 	public TreeMap<Integer, PriorityQueue<Promocion>> mapaPromocionesAventuras;
 	public TreeMap<Integer, PriorityQueue<Promocion>> mapaPromocionesPaisaje;
@@ -16,80 +17,166 @@ public class agencia {
 	private TreeMap<Integer, PriorityQueue<Atraccion>> mapaAtraccionesAventuras;
 	private TreeMap<Integer, PriorityQueue<Atraccion>> mapaAtraccionesPaisaje;
 	private TreeMap<Integer, PriorityQueue<Atraccion>> mapaAtraccionesDegustacion;
+
+	
 	//Carga de archivos --------------------------------------------------------
-	@SuppressWarnings("Unused")
-	private void readData(String txt) {
-		
-		File archivo = null;
-		FileReader fr = null;
+	
+	public static List<Promocion> LeeYcargaPromociones(String archivo) throws IOException {
+
+		List<Promocion> listaDePromociones = new ArrayList<Promocion>();
+		FileReader fr = null; 
 		BufferedReader br = null;
-		
+
 		try {
-			
-			archivo = new File(txt);
+			// instancia un objeto Scanner
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
-			String linea ;
-			while((linea= br.readLine())!=null) {
-				if(txt == "atracciones.txt")
-					this.cargaAtracciones(linea);
-				else
-					this.cargarUsuarios(linea);
-			}			
+			String linea = br.readLine();
+
+			while (linea != null) {
+				// Lee cada línea y la asiga a un array de String usando el espacio como
+				// separador
+				
+				String[] datos = linea.split(",");
+					
+				 	String tipoDesc = datos[0];
+				 	TipoDeDescuento tDes;
+					tipoDeProducto tipoDeP = tipoDeProducto.PROMOCION;   
+					String tipoDeAtr = datos[1];
+					String nombre = datos[2];
+					tipoDeAtraccion tipoA;
+					Double descuento = Double.parseDouble(datos[3]);
+					ArrayList<String> nombresAtracciones = new ArrayList<String>();
+					
+					for (int i = 4; i <datos.length; i++) {
+						nombresAtracciones.add(datos[i]);	 
+					}
+					
+					for(String atr: nombresAtracciones ) {
+						
+					}
+					
+					ArrayList<Atraccion> lista;
 			
-		} catch (NullPointerException e) {
+				
+				
+					if (tipoDesc == "AxB") {
+						tDes = TipoDeDescuento.AxB;
+					} else if (tipoDesc == "ABSOLUTO") {
+						tDes = TipoDeDescuento.ABSOLUTO;
+					} else tDes = TipoDeDescuento.PORCENTUAL;
+					
+					if (tipoDeAtr == "aventura") {
+						tipoA = tipoDeAtraccion.AVENTURA;
+					} else if (tipoDeAtr == "paisaje") {
+						tipoA = tipoDeAtraccion.PAISAJE;
+					} else tipoA = tipoDeAtraccion.DEGUSTACION;
+					
+					// Se instancia una nueva Promocion y
+									
+			//	Promocion pr = new Promocion(tipoDeP, 
+			//			tipoA,
+			//			nombre); 
+				// Si no está repetida, se agrega a la lista
+				
+		//		if (!listaDePromociones.contains(pr)  ){
+		//			listaDePromociones.add(pr);
+		//		}
+				linea = br.readLine();
+			}
+
+		}
+			
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(fr != null) {
-					fr.close();
-				}
-			}catch (Exception e2) {
+		}
+
+		// Cierra el archivo
+		try {
+			if (fr != null) {
+				fr.close();
+			} 
+		} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-		}
+		
+		
+		return listaDePromociones;
 	}
-	private void cargarUsuarios(String linea) {
-		String name= new String();
-		int presupuesto = 0;
-		double tiempo = 0;
-		
-		int status=0;
-		int index=0;
-		
-		for(int i=0; i < linea.length(); i++) {
-			if(9 == linea.charAt(i)) {
-				switch(status) {
-				case 0:
-					name=linea.substring(index,i);;
-					break;
-				case 1:
-					presupuesto = Integer.parseInt(linea.substring(index,i));
-					break;
-				case 2:
-					tiempo = Double.parseDouble(linea.substring(index,i));
-					if(linea.substring(i+1,linea.length()).equals("aventura"))
-						listaDeUsuarios.add(new Usuario(name, presupuesto, tiempo, tipoDeAtraccion.AVENTURA));
-					else
-						if(linea.substring(i+1,linea.length()).equals("degustacion"))
-							listaDeUsuarios.add(new Usuario(name, presupuesto, tiempo, tipoDeAtraccion.DEGUSTACION));
-						else
-							listaDeUsuarios.add(new Usuario(name, presupuesto, tiempo, tipoDeAtraccion.PAISAJE));
+
+	
+	
+	public static List<Atraccion> LeeYcargaAtracciones(String archivo) throws IOException {
+
+		List<Atraccion> listaDeAtracciones = new ArrayList<Atraccion>();
+		FileReader fr = null; 
+		BufferedReader br = null;
+
+		try {
+			// instancia un objeto Scanner
+			fr = new FileReader(archivo);
+			br = new BufferedReader(fr);
+			String linea = br.readLine();
+
+			while (linea != null) {
+				// Lee cada línea y la asiga a un array de String usando el espacio como
+				// separador
+			//	System.out.println(linea);
+				String[] datos = linea.split(",");
+
+						
+				// Crea la Atraccion con los datos de la línea de texto
+					tipoDeProducto tipoDeP = tipoDeProducto.ATRACCION;   
+					String tipoDeAtr = datos[0];
+					String nombre = datos[1];
+					int precio = Integer.parseInt(datos[2]);
+					int cupo = Integer.parseInt(datos[3]);
+					double tiempoNecesario = Double.parseDouble(datos[4]);
+					tipoDeAtraccion tipoA;
+				// Se instancia una nueva atraccion y
+				// Si no está repetida, se agrega a la lista
+					if (tipoDeAtr == "aventura") {
+						tipoA = tipoDeAtraccion.AVENTURA;
+					} else if (tipoDeAtr == "paisaje") {
+						tipoA = tipoDeAtraccion.PAISAJE;
+					} else tipoA = tipoDeAtraccion.DEGUSTACION;
 					
-					i=linea.length();
-					break;
+					
+				Atraccion a = new Atraccion(tipoDeP, 
+						tipoA,
+						nombre,
+						precio,
+						cupo,
+						tiempoNecesario); 
+				
+				
+				if (!listaDeAtracciones.contains(a)  ){
+					listaDeAtracciones.add(a);
 				}
-				status++;
-				index=i+1;
+				linea = br.readLine();
 			}
+
 		}
+			
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		// Cierra el archivo
+		try {
+			if (fr != null) {
+				fr.close();
+			} 
+		} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		
 		
+		return listaDeAtracciones;
 	}
+
+	
+	
 	public void cargaAtracciones(String linea) {
 		
 		String name= new String();
@@ -135,77 +222,10 @@ public class agencia {
 	
 	
 	
-	@SuppressWarnings("unused")
-	private void cargarPromocion(String txt	) {
-		
-		List<String> nombreDe = new ArrayList<String>();
-		
-		
-		Scanner sc = null;
-		try {
-			sc = new Scanner(new File(txt));
-			
-			while(sc.hasNext()) {
-				
-				String linea = sc.nextLine();
-				String datos[] = linea.split(",");
-				tipoDeProducto constante = tipoDeProducto.PROMOCION;
-				tipoDeAtraccion tipoAtracc = null;
-				String nombre = null;
-				ArrayList<Atraccion> atraccionesAcontener = new ArrayList<Atraccion>();
-				double costoOInteres = 0;
-				double interes = 0;
-				int caso = 0 ;
-				//Tipo- Si es absoluta,axb o porcentual
-				String tipoDePromocion = datos[0];
-				//Tipo de atracciones contenidas
-				tipoAtracc = tipoDeAtraccion.valueOf(datos[1].toUpperCase());
-				//nombre
-				nombre = datos[2];
-				//Caso de absoluta o porcentual guarda costo o interes respectivamente
-				if(datos.length==5) costoOInteres = Double.parseDouble(datos[4]);
-				//extraigo nombres de las atracciones contenidas
-				String atraccionesDeFichero[] = datos[3].split("-");
-				/*
-				//Comprobaciones 
-				System.out.println(tipoDePromocion.toString());
-				System.out.println(tipoAtracc.name());
-				System.out.println(nombre);
-				System.out.println(costoOInteres);
-				for(String s: atraccionesDeFichero) {
-					System.out.println(s.toString()); 
-				} */
-				
-				for(String s: atraccionesDeFichero) {
-					int index = nombres.indexOf(s);
-					atraccionesAcontener.add(listaDeAtracciones.get(index));
-					//System.out.println(listaDeAtracciones.get(index).getNombre());
-					//System.out.println(nombres.get(index).toString());
-				}
-				/*
-				for(Producto p : atraccionesAcontener) {
-					System.out.println(p.getNombre());
-				}*/
-				
-				if(tipoDePromocion.toString().equals("absoluta")) {
-					this.listaDePromociones.add(new absoluta(constante,tipoAtracc,nombre,atraccionesAcontener,costoOInteres));
-				}
-				if(tipoDePromocion.toString().equals("axb")) {
-					this.listaDePromociones.add(new AxB(constante,tipoAtracc,nombre,atraccionesAcontener));
-				}
-				if(tipoDePromocion.toString().equals("porcentual")) {
-					this.listaDePromociones.add(new Porcentual(constante,tipoAtracc,nombre,atraccionesAcontener,costoOInteres));
-				}
-			}
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				sc.close();
-			}
+	
 			
 		
-	} 
+	
 	//--------------------------------------------------------------------------
 	public void mostrarUsers() {
 		for (int i = 0; i < listaDeUsuarios.size(); i++) {
@@ -684,13 +704,13 @@ private void filtroAtraccionDegustacion(Usuario u) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		
 		agencia a1 = new agencia();
-		a1.readData("usuarios.txt");
-		a1.readData("atracciones.txt");
-		a1.cargarPromocion("promociones.txt");
+		//a1.readData("usuarios.txt");
+		agencia.LeeYcargaAtracciones("atracciones.txt");
+	//	a1.cargarPromocion("promociones.txt");
 
 
 		//a1.mostrarNames();
@@ -710,6 +730,9 @@ private void filtroAtraccionDegustacion(Usuario u) {
 		//a1.mostrarAtracciones(); 
 		//a1.mostrarAtracciones(); 
 		a1.mapasPorAtraccionPorPrecio();
+		a1.mapasDeAtraccionPorPrecio();
+		//a1.filtroAtraccionAventura(new Usuario ("lucas", 60, 5.4, tipoDeAtraccion.AVENTURA));
+		
 	}
 
 

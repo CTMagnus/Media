@@ -8,7 +8,8 @@ public class absoluta extends Promocion {
 	protected boolean atraccionConCupo = true;
 	private double tiempo;
 	
-	public absoluta(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List<Atraccion> lista,double costo) {
+	public absoluta( TipoDeDescuento tipoDescuento,  tipoDeProducto tipo, 
+			tipoDeAtraccion tipoAtraccion,String nombre,double costo, List<Atraccion> lista) {
 		super(tipo, tipoAtraccion,nombre);
 		this.costo = costo;
 		atraccionesContenidas.addAll( lista);

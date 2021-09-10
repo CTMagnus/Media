@@ -8,9 +8,10 @@ public class AxB extends Promocion {
 	protected boolean atraccionConCupo = true;
 	private double costo;
 	private double tiempo;
+	private double descuento = 0;
 	
-	
-	public AxB(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,List <Atraccion>lista) {
+	public AxB( TipoDeDescuento tipoDescuento , tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,
+			String nombre, double descuento,List <Atraccion>lista) {
 		super(tipo, tipoAtraccion,nombre);
 		atraccionesContenidas.addAll(lista);
 		

@@ -10,8 +10,8 @@ public class Porcentual extends Promocion {
 	private double interesDeLaoferta;
 	private double tiempo;
 
-	public Porcentual(tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,
-			ArrayList<Atraccion> lista, double interesDeOferta) {
+	public Porcentual( TipoDeDescuento tipoDescuento, tipoDeProducto tipo, tipoDeAtraccion tipoAtraccion,String nombre,
+			 double interesDeOferta, ArrayList<Atraccion> lista) {
 		super(tipo, tipoAtraccion,nombre);
 		this.atraccionesContenidas = lista;
 		this.interesDeLaoferta = interesDeOferta/100;
