@@ -29,7 +29,7 @@ public class Atraccion extends Producto {
 	@Override
 	public String toString() {
 		String quienSoy = "";
-		quienSoy += getNombre() + " " + getPrecio() + " " + getCupo() + " " + getTiempo();
+		quienSoy += this.tipoDeAtraccion + " " + getNombre() + " " + getPrecio() + " " + getCupo() + " " + getTiempo();
 		return quienSoy;
 		
 	}
